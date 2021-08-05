@@ -11,9 +11,9 @@ import org.bukkit.event.player.PlayerInteractEntityEvent;
 
 public class ClickableEntity implements Listener {
 	private LivingEntity entity;
-	private String command;
-	ClickableEntity(EntityType type,Location location,String name,String command) {
-		this.command=command;
+	private Action action;
+	ClickableEntity(EntityType type,Location location,String name,Action action) {
+		this.action=action;
 		this.entity=(LivingEntity) location.getWorld().spawnEntity(location, type);
 		entity.setCustomName(name);
 		entity.setAI(false);
@@ -27,6 +27,6 @@ public class ClickableEntity implements Listener {
 	@EventHandler
 	private void onClick(PlayerInteractEntityEvent event) {
 		if(event.getRightClicked()!=entity) return;
-		event.getPlayer().performCommand(command);
+		action.call(event.getPlayer());
 	}
 }
